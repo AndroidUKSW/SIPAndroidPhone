@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SIPAndroidPhone</string>
+    <string name="talk">Talk</string>
 </resources>
