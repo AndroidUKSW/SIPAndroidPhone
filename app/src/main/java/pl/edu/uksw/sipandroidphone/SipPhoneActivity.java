@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -15,6 +16,7 @@ import android.view.*;
 import android.net.sip.*;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.text.ParseException;
@@ -33,7 +35,7 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
     private static final int SET_AUTH_INFO = 2; //set auth data button id
     private static final int SETTINGS = 3; //set settings button id
     private static final int END_CALL = 4; //end call button id
-
+    public static Context ctx;
     /**
      * Load layout
      * @param savedInstanceState
@@ -43,7 +45,7 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.phone);
-
+        ctx = this;
         create();
     }
 
@@ -348,8 +350,12 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
                                         EditText textField = (EditText)
                                                 (textBoxView.findViewById(R.id.calladdress_edit));
                                         address = textField.getText().toString();
-                                        initiateCall();
-
+                                        if(SIPAddressValidator.isValidSipAddress(address)) {
+                                            initiateCall();
+                                        }
+                                        else {
+                                            updateStatus("Invalid SIP Address");
+                                        }
                                     }
                                 })
                         .setNegativeButton(
