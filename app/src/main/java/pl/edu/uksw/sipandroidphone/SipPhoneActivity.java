@@ -25,6 +25,7 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
     public SipManager sipManager = null;
     public SipProfile sipProfile = null;
     public SipAudioCall sipAudioCall = null;
+    public IncomingCallReceiver incomingCallReceiver;
     private static final int CALL = 1; //call button id
     private static final int SET_AUTH_INFO = 2; //set auth data button id
     private static final int SETTINGS = 3; //set settings button id
@@ -50,6 +51,8 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.SipDemo.INCOMING_CALL");
+        incomingCallReceiver = new IncomingCallReceiver();
+        this.registerReceiver(incomingCallReceiver, filter);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -78,6 +81,10 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
         }
 
         closeLocalProfile();
+
+        if (incomingCallReceiver != null) {
+            this.unregisterReceiver(incomingCallReceiver);
+        }
     }
 
     //New instance of sip manager
