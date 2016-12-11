@@ -19,6 +19,9 @@ import android.widget.ToggleButton;
 
 import java.text.ParseException;
 
+/**
+ * Main Phone Activity
+ */
 public class SipPhoneActivity extends Activity implements View.OnTouchListener {
 
     public String address = null; //sip address
@@ -31,7 +34,10 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
     private static final int SETTINGS = 3; //set settings button id
     private static final int END_CALL = 4; //end call button id
 
-    //Load layout
+    /**
+     * Load layout
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -41,10 +47,12 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
         create();
     }
 
-    //On push to talk button initialize
-    //Register on incoming call receiver
-    //Keep screen on
-    //Initialize manager
+    /**
+     * On push to talk button initialize
+     * Register on incoming call receiver
+     * Keep screen on
+     * Initialize manager
+     */
     public void create(){
         ToggleButton pushToTalkButton = (ToggleButton) findViewById(R.id.pushToTalk);
         pushToTalkButton.setOnTouchListener(this);
@@ -59,22 +67,28 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
         initializeManager();
     }
 
-    //On start activity
+    /**
+     * On start activity
+     */
     @Override
     public void onStart() {
         super.onStart();
         initializeManager();
     }
 
-    //On destroy activity
+    /**
+     * On destroy activity
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
         destroy();
     }
 
-    //Stop call
-    //unregister incoming call
+    /**
+     * Stop call
+     * unregister incoming call
+     */
     public void destroy(){
         if (sipAudioCall != null) {
             sipAudioCall.close();
@@ -87,7 +101,9 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
         }
     }
 
-    //New instance of sip manager
+    /**
+     * New instance of sip manager
+     */
     public void initializeManager() {
         if(sipManager == null) {
             sipManager = SipManager.newInstance(this);
@@ -97,8 +113,10 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
     }
 
 
-    //Register into SIP provider
-    //Register device as the location to send SIP calls to for your SIP address
+    /**
+     * Register into SIP provider
+     * Register device as the location to send SIP calls to for your SIP address
+     */
     public void initializeLocalProfile() {
         if (sipManager == null) {
             return;
@@ -159,8 +177,10 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
         }
     }
 
-    //Closes out your local profile
-    //Freeing associated objects into memory and unregistering your device from the server.
+    /**
+     * Closes out your local profile
+     * Freeing associated objects into memory and unregistering your device from the server.
+     */
     public void closeLocalProfile() {
         if (sipManager == null) {
             return;
@@ -173,16 +193,21 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
         }
     }
 
-    //Make an outgoing sipAudioCall
+    /**
+     * Make an outgoing sipAudioCall
+     */
     public void initiateCall() {
 
         updateStatus(address);
 
         try {
             SipAudioCall.Listener listener = new SipAudioCall.Listener() {
-                // Much of the client's interaction with the SIP Stack will
-                // happen via listeners.  Even making an outgoing sipAudioCall, don't
-                // forget to set up a listener to set things up once the sipAudioCall is established.
+                /**
+                 * Much of the client's interaction with the SIP Stack will
+                 * happen via listeners.  Even making an outgoing sipAudioCall, don't
+                 * forget to set up a listener to set things up once the sipAudioCall is established.
+                 * @param call
+                 */
                 @Override
                 public void onCallEstablished(SipAudioCall call) {
                     call.startAudio();
@@ -216,7 +241,10 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
         }
     }
 
-    //Updates the status box at the top of the UI with a messege of your choice.
+    /**
+     * Updates the status box at the top of the UI with a messege of your choice.
+     * @param status
+     */
     public void updateStatus(final String status) {
         // Be a good citizen.  Make sure UI changes fire on the UI thread.
         this.runOnUiThread(new Runnable() {
@@ -227,7 +255,10 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
         });
     }
 
-    //Updates the status box with the SIP address of the current sipAudioCall.
+    /**
+     * Updates the status box with the SIP address of the current sipAudioCall.
+     * @param call
+     */
     public void updateStatus(SipAudioCall call) {
         String useName = call.getPeerProfile().getDisplayName();
         if(useName == null) {
@@ -236,7 +267,12 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
         updateStatus(useName + "@" + call.getPeerProfile().getSipDomain());
     }
 
-    //Updates whether or not the user's voice is muted, depending on whether the button is pressed.
+    /**
+     * Updates whether or not the user's voice is muted, depending on whether the button is pressed.
+     * @param v
+     * @param event
+     * @return
+     */
     public boolean onTouch(View v, MotionEvent event) {
         if (sipAudioCall == null) {
             return false;
@@ -248,7 +284,11 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
         return false;
     }
 
-    //On create menu
+    /**
+     * On create menu
+     * @param menu
+     * @return
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0, CALL, 0, "Call someone");
         menu.add(0, SET_AUTH_INFO, 0, "Edit your SIP Info.");
@@ -257,7 +297,11 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
         return true;
     }
 
-    //On menu option selected
+    /**
+     * On menu option selected
+     * @param item
+     * @return
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case CALL:
@@ -283,7 +327,11 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
         return true;
     }
 
-    //On create dialog
+    /**
+     * On create dialog
+     * @param id
+     * @return
+     */
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
@@ -327,7 +375,9 @@ public class SipPhoneActivity extends Activity implements View.OnTouchListener {
         return null;
     }
 
-    //Load preferences activity
+    /**
+     * Load preferences activity
+     */
     public void updatePreferences() {
         Intent settingsActivity = new Intent(getBaseContext(),
                 SipSettings.class);

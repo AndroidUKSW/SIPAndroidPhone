@@ -5,8 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.sip.*;
 
+/**
+ * Incoming Call Helper
+ */
 public class IncomingCallReceiver extends BroadcastReceiver {
-    //On receive incoming call
+    /**
+     * On receive incoming call
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         SipAudioCall incomingCall = null;
