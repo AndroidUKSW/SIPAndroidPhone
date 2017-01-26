@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.*;
 import android.net.sip.*;
@@ -24,7 +25,7 @@ import java.text.ParseException;
 /**
  * Main Phone Activity
  */
-public class SipPhoneActivity extends Activity implements View.OnTouchListener {
+public class SipPhoneActivity extends AppCompatActivity implements View.OnTouchListener {
 
     public String address = null; //sip address
     public SipManager sipManager = null;
