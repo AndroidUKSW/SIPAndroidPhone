@@ -2,13 +2,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pl.edu.uksw.sipandroidphone">
-
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+    <application android:icon="@mipmap/ic_launcher" android:label="SipPhone">
         <activity android:name=".SipPhoneActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
@@ -18,9 +12,23 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-		<activity android:name=".SipSettings" android:label="set_preferences"
+        <activity android:name=".SipSettings" android:label="set_preferences"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
-    </application>
 
+
+        <receiver android:name=".IncomingCallReceiver" android:label="Call Receiver"/>
+    </application>
+    <uses-sdk android:minSdkVersion="14" />
+    <uses-permission android:name="android.permission.USE_SIP" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <uses-feature android:name="android.hardware.sip.voip" android:required="true" />
+    <uses-feature android:name="android.hardware.wifi" android:required="true" />
+    <uses-feature android:name="android.hardware.microphone" android:required="true" />
 </manifest>
